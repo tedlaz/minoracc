@@ -26,7 +26,7 @@ build_script:
   - cmd: makensis.exe install.nsi
 
 artifacts:
-  - path: '*.$(appveyor_build_version).exe'
+  - path: '*.exe'
     name: myartifact
 
 deploy:

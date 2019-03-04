@@ -93,7 +93,7 @@ def create_nsis(filename, productname, version, publisher, website):
     ROOT = '%s\\dist\\%s' % (CURPATH, MAIN_FILE)
     LICENSE = "%s\\LICENSE" % CURPATH
     EXE = "%s.exe" % MAIN_FILE
-    INSTALLER = "%s.Installer.exe" % PRODUCT
+    INSTALLER = "%s.Installer.%s.exe" % (PRODUCT, VERSION)
     return getfiles(ROOT, EXE, PRODUCT, VERSION, PUBLISHER,
                     WEBSITE, LICENSE, INSTALLER)
 
@@ -101,7 +101,7 @@ def create_nsis(filename, productname, version, publisher, website):
 if __name__ == "__main__":
     MAIN_FILE = "qminoracc"
     PRODUCT = "qminoracc"
-    VERSION = "0.3"
+    VERSION = "1.0.3"
     PUBLISHER = "Ted Lazaros 2019"
     WEBSITE = "http://greeklinks.000webhostapp.com"
     print(create_nsis(MAIN_FILE, PRODUCT, VERSION, PUBLISHER, WEBSITE))
