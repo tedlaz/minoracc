@@ -7,6 +7,7 @@ import textwrap
 import minoracc as mac
 import sys
 from datetime import date
+from logger import logger
 # LMT = namedtuple('LMT', 'lmo metafora esoda ejoda')
 ALIR = qc.Qt.AlignRight | qc.Qt.AlignTrailing | qc.Qt.AlignVCenter
 STYLE_NORMAL = "background-color: rgb(200, 200, 200);"
@@ -421,6 +422,7 @@ def main(filename=None):
     app.setApplicationName("MinorAccounting")
     dlg = MainWindow(filename)
     dlg.show()
+    logger.info("Application started !!!")
     sys.exit(app.exec_())
 
 
