@@ -99,6 +99,10 @@ class TransactionLine:
         else:
             return "credit"
 
+    def line_acc(self):
+        stt = "%s-%s"
+        return cfg.DEBCRED(self.ttype)
+
     def __str__(self):
         if self.ttype == cfg.DEBIT:
             debit = self.value

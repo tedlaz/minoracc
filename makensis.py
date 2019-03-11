@@ -101,7 +101,7 @@ def create_nsis(filename, productname, version, publisher, website):
 if __name__ == "__main__":
     MAIN_FILE = "qminoracc"
     PRODUCT = "qminoracc"
-    VERSION = "1.0.4"
+    VERSION = "1.0.6"
     PUBLISHER = "Ted Lazaros 2019"
     WEBSITE = "http://greeklinks.000webhostapp.com"
     print(create_nsis(MAIN_FILE, PRODUCT, VERSION, PUBLISHER, WEBSITE))

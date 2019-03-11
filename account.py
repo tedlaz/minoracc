@@ -1,4 +1,5 @@
 import config as cfg
+import enums
 from logger import logger
 
 
@@ -13,6 +14,7 @@ class Account:
         if self.code[0] in cfg.OMADES:
             return self.code[0]
         else:
+            # Εάν δεν είναι αριθμός τότε θα πρέπει να βρεθεί αντιστοίχιση
             return self.code.split(cfg.SPLITTER)[0]
 
     @property
@@ -62,6 +64,14 @@ class Account:
         if self.is_ee:
             tgs.add('EE')
         return tgs
+
+    @property
+    def myf(self):
+        """Returns myf tag"""
+        for key in cfg.MYF.keys():
+            if self.code.startswith(key):
+                return cfg.MYF[key]
+        return None
 
     def __str__(self):
         return f'{self.code} {self.name}'

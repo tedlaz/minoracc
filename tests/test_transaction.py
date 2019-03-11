@@ -101,7 +101,7 @@ class Tests(unittest.TestCase):
 
     def test_314(self):
         tr2 = ts.Transaction('2019-01-01', 'tda2', 'test again')
-        tr2.add_line('70.01.24', 2, 100)
+        tr2.add_line('70.00.01.24', 2, 100)
         tr2.add_line('38.00.00', 1, 100)
         self.assertEqual(tr2.check_vat(), None)
 
@@ -127,3 +127,21 @@ class Tests(unittest.TestCase):
         tr2.add_line('54.00.713', 2, 130)
         tr2.add_line('38.00.00', 1, 2370)
         self.assertEqual(tr2.check_vat(), True)
+
+    def test_318(self):
+        tr2 = ts.Transaction('2019-01-01', 'tda2', 'test again')
+        tr2.add_line('70.00.01.024', 2, 1000)
+        tr2.add_line('54.00.724', 2, 240)
+        tr2.add_line('70.00.01.013', 2, 1000)
+        tr2.add_line('54.00.713', 2, 130)
+        tr2.add_line('38.00.00', 1, 2370)
+        # print(tr2.myf)
+
+    def test_319(self):
+        tr2 = ts.Transaction('2019-01-01', 'tda2', 'test again')
+        tr2.add_line('70.00.01.024', 1, 1000)
+        tr2.add_line('54.00.724', 1, 240)
+        tr2.add_line('70.00.00.013', 2, 1000)
+        tr2.add_line('54.00.713', 1, 130)
+        tr2.add_line('38.00.00', 2, 2370)
+        # print(tr2.myf)

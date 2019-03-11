@@ -22,6 +22,7 @@ KartellaLine = namedtuple('KartellaLine', "date acc par per debit credit rest")
 
 
 class TransactionBook:
+    """Το βιβλίο λογιστικών εγγραφών"""
 
     def __init__(self):
         self.transactions = []

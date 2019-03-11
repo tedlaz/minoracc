@@ -2,10 +2,9 @@ from collections import namedtuple
 import transaction_line as trl
 import utils as utl
 import config as cfg
+from logger import logger
 
 
-# VATPOSN = [24, 13, 6]
-# VATPOSS = [17, 9, 4]
 NT_EE = namedtuple('NT_EE', "date typ par per poso vat")
 
 
@@ -162,6 +161,30 @@ class Transaction:
             if utl.vat_best_mach(apo, vat, threshold):
                 return True
             else:
-                print('\nVAT Error in Transaction:', self)
+                logger.info("VAT Error in Transaction:\n%s" % self)
                 return False
         return None
+
+    @property
+    def total_val_vat(self):
+        """Επιστρέφει το συνολικό ποσό, το συνολικό ΦΠΑ και τον τύπο
+           (normal, credit) της εγγραφής
+        """
+        totalvalue = totalvat = 0
+        typoi = set()
+        for line in self.lines:
+            if line.line_type:
+                typoi.add(line.line_type)
+                totalvalue += line.value
+            if line.is_vat:
+                totalvat += line.value
+        return totalvalue, totalvat, typoi
+
+    @property
+    def myf(self):
+        myf_tags = set()
+        for lin in self.lines:
+            if lin.account.myf:  # Αν βρεί μια τιμή είναι αρκετή και σταματάει
+                myf_tags.add(lin.account.myf)
+        if len(myf_tags) > 0:
+            return myf_tags, self.total_val_vat
