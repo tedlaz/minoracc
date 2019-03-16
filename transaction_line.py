@@ -1,67 +1,69 @@
 """Transaction line"""
 import config as cfg
+import utils as utl
 import account as acc
+import enums
 
 
 class TransactionLine:
     stt = "Acc:%20s com:%30s deb:%12s cred:%12s"
 
-    def __init__(self, account_code, ttype, value, comment=''):
+    def __init__(self, account_code, ttype, value, comment='', acc_name=None):
         """Create a new TransactionLine
         :param account: The account code
         :param ttype: DEBIT(1), or CREDIT(2)
         :param value: Decimal nonzero number
         :param comment: Small comment about the line
         """
-        assert ttype in (cfg.DEBIT, cfg.CREDIT)  # Only DEBIT or CREDIT
-        assert value != 0  # Must have a nonzero value
+        # assert ttype in (cfg.DEBIT, cfg.CREDIT)  # Only DEBIT or CREDIT
+        # assert value != 0  # Must have a nonzero value
         self.account = acc.Account(account_code)
-        self.ttype = ttype
-        self.value = value
+        self.ttype = enums.Decr(ttype)
+        self.value = utl.dec(value)
         self.comment = comment
         self.normalize()
 
     @property
     def debit(self):
-        if self.ttype == cfg.DEBIT:
+        if self.ttype == enums.Decr.DEBIT:
             return self.value
         else:
-            return 0
+            return utl.dec(0)
 
     @property
     def credit(self):
-        if self.ttype == cfg.CREDIT:
+        if self.ttype == enums.Decr.CREDIT:
             return self.value
         else:
-            return 0
+            return utl.dec(0)
 
     @property
     def rest(self):
-        if self.ttype == cfg.DEBIT:
+        if self.ttype == enums.Decr.DEBIT:
             return self.value
-        elif self.ttype == cfg.CREDIT:
+        elif self.ttype == enums.Decr.CREDIT:
             return -self.value
         else:
-            return 0
+            return utl.dec(0)
 
     @property
     def value_delta(self):
-        if self.ttype == cfg.DEBIT:
+        if self.ttype == enums.Decr.DEBIT:
             return self.value
-        elif self.ttype == cfg.CREDIT:
+        elif self.ttype == enums.Decr.CREDIT:
             return -self.value
         else:
-            return 0
+            return utl.dec(0)
 
     def normalize(self):
         """Normalize transaction line
         """
         if self.value < 0:
             self.value = -self.value
-            if self.ttype == cfg.DEBIT:
-                self.ttype = cfg.CREDIT
-            elif self.ttype == cfg.CREDIT:
-                self.ttype = cfg.DEBIT
+            if self.ttype == enums.Decr.DEBIT:
+                self.ttype = enums.Decr.CREDIT
+            elif self.ttype == enums.Decr.CREDIT:
+                self.ttype = enums.Decr.DEBIT
 
     @property
     def is_vat(self):
@@ -94,21 +96,21 @@ class TransactionLine:
         """
         if self.account.dc_type == cfg.MIX:
             return None
-        if self.account.dc_type ==  self.ttype:
+        if self.account.dc_type ==  self.ttype.value:
             return "normal"
         else:
             return "credit"
 
     def line_acc(self):
         stt = "%s-%s"
-        return cfg.DEBCRED(self.ttype)
+        return cfg.DEBCRED[self.ttype]
 
     def __str__(self):
-        if self.ttype == cfg.DEBIT:
+        if self.ttype == enums.Decr.DEBIT:
             debit = self.value
-            credit = 0
-        elif self.ttype == cfg.CREDIT:
-            debit = 0
+            credit = utl.dec(0)
+        elif self.ttype == enums.Decr.CREDIT:
+            debit = utl.dec(0)
             credit = self.value
         else:
             debit = credit = self.value

@@ -1,3 +1,4 @@
+from enums import MyfCat
 DEBIT, CREDIT = 1, 2  # for account lines
 DEBCRED = {1: 'DEBIT', 2: 'CREDIT'}  # reverse dictonary
 DEB, CRED, MIX = 1, 2, 3  # For account normal state : Debit, credit, mix
@@ -11,6 +12,10 @@ TRANSFTYP = '35'  # Ομάδες μεταφοράς
 EETYP = '1267'  # Ομάδες εσόδων-εξόδων
 VATACC = "54.00."  # All vat accounts parent
 TEAM = {'1': DEB, '2': DEB, '6': DEB, '7': CRED}
+# TEAM = {'1': Acct.DEBITED,
+#         '2': Acct.DEBITED,
+#         '6': Acct.DEBITED,
+#         '7': Acct.CREDITED}
 ACCTYP = {'1': "LINE-PAGIA",
           '2': "LINE-APOTHEMATA",
           '3': "LINE-APAITHSEIS",
@@ -23,6 +28,8 @@ ACCTYP = {'1': "LINE-PAGIA",
           '9': "LINE-ANALYTIKH"}
 VATPOSN = [24, 13, 6]  # Συντελεστές κανονικού ΦΠΑ
 VATPOSS = [17, 9, 4]  # Συντελεστές μειωμένου ΦΠΑ
+#         Vodaphone      ΔΕΗ         Cosmote        ΟΤΕ
+MYFEX = ('094349850', '090000045', '094493766', '094019245')
 MYF = {
     '14.03.': 'PRO',
     '20.01.': 'PRO',
@@ -37,5 +44,6 @@ MYF = {
     '70.00.00.': 'PEL-LIA',
     '70.00.01.': 'PEL',
     '71.00.00.': 'PEL-LIA',
-    '71.00.01': 'PEL',
+    '71.00.01.': 'PEL',
+    '73.00.00.': 'PEL-LIA',
     '73.00.01.': 'PEL'}

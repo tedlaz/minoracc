@@ -2,24 +2,34 @@ from collections import namedtuple
 import transaction_line as trl
 import utils as utl
 import config as cfg
+from named_tuples import MyfLine
+from named_tuples import EeLine
+from named_tuples import TransTotalVals
+from enums import Decr
 from logger import logger
 
 
-NT_EE = namedtuple('NT_EE', "date typ par per poso vat")
-
-
 class Transaction:
-    def __init__(self, date, parastatiko, perigrafi, lines=None):
+    def __init__(self, date, parastatiko, perigrafi, per2='', afm=''):
         """Create a new Transaction"""
         self.date = date
         self.parastatiko = parastatiko
         self.perigrafi = perigrafi
+        self.per2 = per2
+        self.afm = afm
         self.lines = []
 
-    def add_line(self, account, ttype, value, comment=''):
+    def add_line(self, account, ttype, value, comment='', accname=''):
         """Insert a new transactionLine"""
-        new_line = trl.TransactionLine(account, ttype, value, comment)
+        new_line = trl.TransactionLine(account, ttype, value, comment, accname)
         self.lines.append(new_line)
+
+    def add_line_dc(self, account, debit, credit, comnt='', acc_name=''):
+        """Insert a new transaction line from debit credit values"""
+        delta = debit - credit
+        nli = trl.TransactionLine(
+                    account, Decr.DEBIT.value, delta, comnt, acc_name)
+        self.lines.append(nli)
 
     def add_line_final(self, account, comment=''):
         """Insert final TransactionLine"""
@@ -30,7 +40,7 @@ class Transaction:
             self.lines.append(trl.TransactionLine(account, cfg.CREDIT, diff, comment))
 
     def __str__(self):
-        sta = '\nDate: %s, par: %s, per: %s\n' % (self.date, self.parastatiko, self.perigrafi)
+        sta = '\nDate: %s, par: %s, per: %s per2: %s\n' % (self.date, self.parastatiko, self.perigrafi, self.per2)
         for lin in self.lines:
             sta += '%s\n' % lin.__str__()
         return sta
@@ -56,8 +66,8 @@ class Transaction:
                 typp = 1
             if vat < 0:
                 raise ValueError
-            rva = NT_EE(self.date, typp, self.parastatiko, self.perigrafi,
-                        poso, vat)
+            rva = EeLine(self.date, typp, self.parastatiko, self.perigrafi,
+                          poso, vat)
             return rva
 
     @property
@@ -166,7 +176,7 @@ class Transaction:
         return None
 
     @property
-    def total_val_vat(self):
+    def total_val_vat_old(self):
         """Επιστρέφει το συνολικό ποσό, το συνολικό ΦΠΑ και τον τύπο
            (normal, credit) της εγγραφής
         """
@@ -178,7 +188,38 @@ class Transaction:
                 totalvalue += line.value
             if line.is_vat:
                 totalvat += line.value
-        return totalvalue, totalvat, typoi
+        if len(typoi) == 1:  # Φυσιολογικά θα πρέπει να έχει μόνο μια τιμή
+            return TransTotalVals(totalvalue, totalvat, list(typoi)[0])
+        elif len(typoi) > 1:
+            logger.error("Error: %s %s %s %s" %  (self, totalvalue,
+                                                  totalvat, typoi))
+            return None
+        return None
+
+    @property
+    def total_val_vat(self):
+        """Επιστρέφει το συνολικό ποσό, το συνολικό ΦΠΑ και τον τύπο
+           (normal, credit) της εγγραφής
+        """
+        totalvalue_normal= totalvalue_credit = totalvat = 0
+        typoi = set()
+        for line in self.lines:
+            if line.line_type:
+                typoi.add(line.line_type)
+            if line.line_type == 'normal':
+                totalvalue_normal += line.value
+            elif line.line_type == 'credit':
+                totalvalue_credit += line.value
+            if line.is_vat:
+                totalvat += line.value
+        if len(typoi) == 0:
+            return None
+        if totalvalue_normal >= totalvalue_credit:
+            rest = totalvalue_normal - totalvalue_credit
+            return TransTotalVals(rest, totalvat, 'normal')
+        else:
+            rest = totalvalue_credit - totalvalue_normal
+            return TransTotalVals(rest, totalvat, 'credit')
 
     @property
     def myf(self):
@@ -186,5 +227,11 @@ class Transaction:
         for lin in self.lines:
             if lin.account.myf:  # Αν βρεί μια τιμή είναι αρκετή και σταματάει
                 myf_tags.add(lin.account.myf)
-        if len(myf_tags) > 0:
-            return myf_tags, self.total_val_vat
+        tvs = self.total_val_vat
+        if (len(myf_tags) == 1) and tvs:
+            return MyfLine(self.date, self.afm, list(myf_tags)[0],
+                           tvs.decr, tvs.amount, tvs.tax)
+        elif len(myf_tags) > 1:
+            logger.error("Error: %s %s" % (self, myf_tags))
+            return None
+        return None

@@ -4,9 +4,12 @@ from logger import logger
 
 
 class Account:
-    def __init__(self, code, name=''):
+    def __init__(self, code, name=None):
         self.code = code
-        self.name = name
+        if name:
+            self.name = name
+        else:
+            self.name = code
 
     @property
     def omada(self):
@@ -26,7 +29,7 @@ class Account:
         ranks = [cfg.SPLITTER.join(spl[:i + 1]) for i in range(len(spl))]
         if self.omada == ranks[0]:
             return tuple(ranks)
-        return tuple([self.omada] + ranks)
+        return tuple(['9', self.omada] + ranks)
 
     @property
     def dc_type(self):

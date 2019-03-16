@@ -1,5 +1,7 @@
 import unittest
 import transaction as ts
+from utils import dec
+from named_tuples import MyfLine
 
 
 class Tests(unittest.TestCase):
@@ -135,13 +137,15 @@ class Tests(unittest.TestCase):
         tr2.add_line('70.00.01.013', 2, 1000)
         tr2.add_line('54.00.713', 2, 130)
         tr2.add_line('38.00.00', 1, 2370)
-        # print(tr2.myf)
+        tvl = MyfLine('2019-01-01', '', 'PEL', 'normal', 2000, 370)
+        self.assertEqual(tr2.myf, tvl)
 
     def test_319(self):
         tr2 = ts.Transaction('2019-01-01', 'tda2', 'test again')
-        tr2.add_line('70.00.01.024', 1, 1000)
+        tr2.add_line('70.00.00.024', 1, 1000)
         tr2.add_line('54.00.724', 1, 240)
-        tr2.add_line('70.00.00.013', 2, 1000)
+        tr2.add_line('70.00.00.013', 1, 1000)
         tr2.add_line('54.00.713', 1, 130)
         tr2.add_line('38.00.00', 2, 2370)
-        # print(tr2.myf)
+        tvl = MyfLine('2019-01-01', '', 'PEL-LIA', 'credit', 2000, 370)
+        self.assertEqual(tr2.myf, tvl)

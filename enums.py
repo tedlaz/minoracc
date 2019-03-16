@@ -33,3 +33,10 @@ class Omades(Enum):
     ESODA = 7
     APOTELESMATA = 8
     ANALYTIKI = 9
+
+class MyfCat(Enum):
+    PEL = 1  # Πελάτες αναλυτικά
+    PRO = 2  # Προμηθευτές αναλυτικά
+    PELLIA = 3  # Πελάτες λιανικής
+    PROCUB = 4  # Προμηθευτές κουβάς
+    PROVAT = 5  # Προμηθευτές χωρίς έκπτωση του ΦΠΑ (Για αποφορολόγηση)
