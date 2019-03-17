@@ -2,6 +2,7 @@ import unittest
 import transaction as ts
 from utils import dec
 from named_tuples import MyfLine
+from enums import MyfCat
 
 
 class Tests(unittest.TestCase):
@@ -137,7 +138,7 @@ class Tests(unittest.TestCase):
         tr2.add_line('70.00.01.013', 2, 1000)
         tr2.add_line('54.00.713', 2, 130)
         tr2.add_line('38.00.00', 1, 2370)
-        tvl = MyfLine('2019-01-01', '', 'PEL', 'normal', 2000, 370)
+        tvl = MyfLine('2019-01-01', '', MyfCat.PEL, 'normal', 2000, 370)
         self.assertEqual(tr2.myf, tvl)
 
     def test_319(self):
@@ -147,5 +148,5 @@ class Tests(unittest.TestCase):
         tr2.add_line('70.00.00.013', 1, 1000)
         tr2.add_line('54.00.713', 1, 130)
         tr2.add_line('38.00.00', 2, 2370)
-        tvl = MyfLine('2019-01-01', '', 'PEL-LIA', 'credit', 2000, 370)
+        tvl = MyfLine('2019-01-01', '', MyfCat.PELLIA, 'credit', 2000, 370)
         self.assertEqual(tr2.myf, tvl)

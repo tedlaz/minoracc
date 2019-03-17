@@ -57,7 +57,7 @@ def parse_imerologio(fil, enc='WINDOWS-1253'):
                 pis = dec(lin[SPIS].strip().replace('.', '').replace(',', '.'))
                 if lmo in dlmo:
                     if dlmo[lmo] != lmp:
-                        logger.error('> Διαφορά στο όνομα %s:  %s -> %s' % (
+                        logger.error('Διαφορά στο όνομα %s:  %s -> %s' % (
                                lmo, dlmo[lmo],lmp))
                 else:
                     dlmo[lmo] = lmp
@@ -71,8 +71,8 @@ def parse_imerologio(fil, enc='WINDOWS-1253'):
             else:
                 unparsed_lines[i] = lin
     if len(unparsed_lines) > 0:
-        logger.error('> parse_imerologio unparsed lines : %s' % unparsed_lines)
+        logger.error('parse_imerologio unparsed lines : %s' % unparsed_lines)
     else:
-        logger.info('> parse_imerologio parsed everynthing ok !!!')
+        logger.info('parse_imerologio parsed everynthing ok !!!')
     return {'tr_header': trah, 'tr_lines': trad, 'tr_per': dper,
             'lmoi': dlmo, 'arthra': arthro, 'errors': unparsed_lines}

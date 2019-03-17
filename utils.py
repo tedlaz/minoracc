@@ -98,6 +98,11 @@ def dec2gr(poso, decimals=2, zero_as_space=False):
     return prosimo + ' ' + triades(sint) + decimal_ceparator + sdec
 
 
+def d2c(val):
+    "Replace dot with coma"
+    return str(val).replace('.', ',')
+
+
 def trs(val, threshold):
     """If absolute value of val < threshold
             return 0

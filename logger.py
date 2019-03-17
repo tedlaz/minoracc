@@ -2,7 +2,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-fmt = '%(asctime)s|%(filename)s:%(lineno)d(%(levelname)s)-> %(message)s'
+fmt = '%(asctime)s|%(filename)s:%(lineno)d(%(levelname)s)> %(message)s'
 formatter = logging.Formatter(fmt)
 file_handler = logging.FileHandler('minoracc.log')
 file_handler.setFormatter(formatter)

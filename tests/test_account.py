@@ -1,5 +1,6 @@
 import unittest
 import account as acc
+from enums import MyfCat
 
 
 class Tests(unittest.TestCase):
@@ -12,4 +13,4 @@ class Tests(unittest.TestCase):
     def test_002(self):
         ac1 = acc.Account('70.00.00.2024', "")
         # print(ac1.hierarchy, ac1.tags)
-        self.assertEqual(ac1.myf, 'PEL-LIA')
+        self.assertEqual(ac1.myf, MyfCat.PELLIA)

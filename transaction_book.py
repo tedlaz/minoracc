@@ -21,6 +21,7 @@ from named_tuples import KartellaLine
 from named_tuples import MyfLine
 from utils import dec
 from config import MYFEX
+from enums import MyfCat
 from logger import logger
 
 
@@ -161,10 +162,10 @@ class TransactionBook:
         for tran in self.transactions:
             myf = tran.myf
             if myf:
-                # cval[myf.category][myf.decr] = cval[myf.category].get(myf.decr, 0) + myf.amount
-                # cfpa[myf.category][myf.decr] = cfpa[myf.category].get(myf.decr, 0) + myf.tax
-                if myf.category == 'PRO-VAT':
-                    cat = 'PRO'
+                cval[myf.category][myf.decr] = cval[myf.category].get(myf.decr, 0) + myf.amount
+                cfpa[myf.category][myf.decr] = cfpa[myf.category].get(myf.decr, 0) + myf.tax
+                if myf.category == MyfCat.PROVAT:
+                    cat = MyfCat.PRO
                     if myf.tax == 0:
                         amn = dec(myf.amount / dec(1.24))
                         tax = myf.amount - amn
@@ -173,14 +174,21 @@ class TransactionBook:
                         amn = myf.amount
                         tax = myf.tax
                     myfl.append(MyfLine(myf.date, myf.afm, cat, myf.decr, amn, tax))
-                elif myf.category == 'PEL-LIA':
+                elif myf.category == MyfCat.PELLIA:
                     myfl.append(MyfLine(myf.date, '', myf.category, myf.decr, myf.amount, myf.tax))
-                elif myf.category == 'PRO' and myf.afm in MYFEX:
-                    print(tran)
-                    myfl.append(MyfLine(myf.date, '', 'PRO-CUB', myf.decr, myf.amount, myf.tax))
+                elif myf.category == MyfCat.PRO and myf.afm in MYFEX:
+                    # print(tran)
+                    myfl.append(MyfLine(myf.date, '', MyfCat.PROCUB, myf.decr, myf.amount, myf.tax))
                 else:
                     myfl.append(myf)
-        # print(cval, cfpa)
+        for key, val in cval.items():
+            print(key.name)
+            for k2, val2 in val.items():
+                print(k2, val2)
+        for key, val in cfpa.items():
+            print(key.name)
+            for k2, val2 in val.items():
+                print(k2, val2)
         return myfl
 
     def myf_totals(self, year):
