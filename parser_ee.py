@@ -65,7 +65,7 @@ def parse_esex(fil, enc='WINDOWS-1253'):
 
 
 if __name__ == '__main__':
-    fil = "/home/ted/tmp/fpa/ee201812.txt"
+    fil = "/home/ted/Downloads/ee2018.txt"
     prs = parse_esex(fil)
     # print('\n'.join(["%s : %s " % (i.par, i.afm) for i in prs['2018-01-04']]))
     # print(len(prs))

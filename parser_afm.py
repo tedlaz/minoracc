@@ -27,7 +27,7 @@ def parse_afm(fil, enc='WINDOWS-1253'):
 
 
 if __name__ == '__main__':
-    fil = "/home/ted/tmp/totals/afm.txt"
+    fil = "/home/ted/Downloads/afm.txt"
     prs = parse_afm(fil)
     for lin in prs.keys():
         print(lin, prs[lin])
