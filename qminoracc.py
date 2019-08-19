@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # from collections import namedtuple
 from PyQt5 import QtCore as qc
 from PyQt5 import QtWidgets as qw
