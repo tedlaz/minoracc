@@ -7,6 +7,7 @@ import decimal
 import textwrap
 import minoracc as mac
 import sys
+import os
 from datetime import date
 from logger import logger
 # LMT = namedtuple('LMT', 'lmo metafora esoda ejoda')
@@ -307,7 +308,10 @@ class Dialog(qw.QWidget):
     def __init__(self, filename, parent=None):
         super().__init__(parent)
         self.parent = parent
-        self.book = mac.Book.from_file(filename, '2030-10-31')
+        if os.path.isfile(filename):
+            self.book = mac.Book.from_file(filename, '2030-10-31')
+        else:
+            self.book = mac.Book()
         mainlayout = qw.QVBoxLayout()
         self.setLayout(mainlayout)
         hlayout = qw.QHBoxLayout()
