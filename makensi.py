@@ -83,7 +83,7 @@ def getfiles(root_dir, exe, product_name, product_version, publisher, web, licen
     return '\n\n'.join([top, instal, mid, delete])
 
 
-def create_nsis(filename, productname, version, publisher, website):
+def create_nsi(filename, productname, version, publisher, website):
     MAIN_FILE = filename
     PRODUCT = productname
     VERSION = version
@@ -101,7 +101,7 @@ def create_nsis(filename, productname, version, publisher, website):
 if __name__ == "__main__":
     MAIN_FILE = "qminoracc"
     PRODUCT = "qminoracc"
-    VERSION = "1.0.14"
+    VERSION = "1.0.16"
     PUBLISHER = "Ted Lazaros 2019"
     WEBSITE = "https://tedlaz.github.io/weblinks"
-    print(create_nsis(MAIN_FILE, PRODUCT, VERSION, PUBLISHER, WEBSITE))
+    print(create_nsi(MAIN_FILE, PRODUCT, VERSION, PUBLISHER, WEBSITE))

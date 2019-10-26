@@ -333,7 +333,7 @@ class Dialog(qw.QWidget):
         self.tbl.setWordWrap(True)
         self.setWindowTitle("Ισοζύγιο Λογαριασμών")
         if self.parent:
-            self.parent.setWindowTitle("Ισοζύγιο Λογαριασμών")
+            self.parent.setWindowTitle(f"Ισοζύγιο Λογαριασμών ({filename})")
         # Connections
         bsave_ypol.clicked.connect(self.save_ypol)
         self.sbar.some_acc_clicked.connect(self.refresh_model)

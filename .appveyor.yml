@@ -22,7 +22,7 @@ install:
 
 build_script:
   - cmd: pyinstaller.exe -w qminoracc.py
-  - cmd: python makensis.py > install.nsi
+  - cmd: python makensi.py > install.nsi
   - cmd: makensis.exe install.nsi
 
 artifacts:
