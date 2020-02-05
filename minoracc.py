@@ -152,7 +152,7 @@ class Book:
 
     def read_file(self, filename):
         # print('date_eos', self.date_eos)
-        idx = 0 
+        idx = 1 
         with open(filename, encoding="utf-8") as file:
             for i, line in enumerate(file.readlines()):
                 if line.startswith('*'):
