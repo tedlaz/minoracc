@@ -101,7 +101,7 @@ def create_nsi(filename, productname, version, publisher, website):
 if __name__ == "__main__":
     MAIN_FILE = "qminoracc"
     PRODUCT = "qminoracc"
-    VERSION = "1.0.16"
-    PUBLISHER = "Ted Lazaros 2019"
+    VERSION = "1.0.18"
+    PUBLISHER = "Ted Lazaros 2020"
     WEBSITE = "https://tedlaz.github.io/weblinks"
     print(create_nsi(MAIN_FILE, PRODUCT, VERSION, PUBLISHER, WEBSITE))

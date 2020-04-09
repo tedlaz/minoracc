@@ -433,7 +433,7 @@ def main(filename=None):
     app = qw.QApplication(sys.argv)
     app.setOrganizationName("TedLazaros")
     app.setOrganizationDomain("Tedlaz")
-    app.setApplicationName("qminoraccount")
+    app.setApplicationName("MinorAccounting")
     dlg = MainWindow(filename)
     dlg.show()
     logger.info("Application started !!!")
